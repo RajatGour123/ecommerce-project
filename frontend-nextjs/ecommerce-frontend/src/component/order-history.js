@@ -21,9 +21,11 @@ const OrderHistory = () => {
             <p>
               <strong>Customer Information:</strong>
               <br />
-              Name: {JSON.parse(order?.customerId).name}
+              id: {order?.customer.customer_id}
               <br />
-              id: {JSON.parse(order?.customerId).customer_id}
+              Name: {order?.customer.name}
+              <br />
+              email: {order?.customer.email}
               <br />
               {/* Email: {order.customer.email} */}
             </p>

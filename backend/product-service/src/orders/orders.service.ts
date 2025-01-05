@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './order.model';
 import * as amqp from 'amqplib';
+import axios from 'axios';
 
 @Injectable()
 export class OrdersService implements OnModuleInit, OnModuleDestroy {
@@ -54,11 +55,25 @@ export class OrdersService implements OnModuleInit, OnModuleDestroy {
 
   async findOrdersWithCustomerDetails(): Promise<any[]> {
     const orders = await this.orderModel.findAll();
-    return orders.map(order => ({
-      id: order.id,
-      products: order.products,
-      customerId: order.customerId,
-      orderInfo: order.orderInfo,
-    }));
+    
+    const ordersWithCustomerDetails = await Promise.all(
+      orders.map(async (order) => {
+        // Fetch customer details
+        console.log(order.customerId,"order.customerIdorder.customerId")
+        const response = await axios.get(`http://localhost:3002/customers/${order.customerId}`);
+        const customer = response.data;
+        console.log(customer,"customercustomercustomercustomercustomercustomer")
+
+
+        return {
+          id: order.id,
+          products: order.products,
+          orderInfo: order.orderInfo,
+          customer: customer
+        };
+      })
+    );
+
+    return ordersWithCustomerDetails;
   }
 }

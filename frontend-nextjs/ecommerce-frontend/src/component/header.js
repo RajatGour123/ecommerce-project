@@ -8,9 +8,12 @@ const Header = ({ userName }) => {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   let check;
    useEffect(()=>{
-    check=localStorage.getItem("name")
-    setname(check)
-    console.log(JSON.parse(localStorage.getItem("name"))?.customer_id,"76786786786786")
+    if(localStorage.getItem("name")){
+        setname(JSON.parse(localStorage.getItem("name"))?.name)
+    }
+
+    // check=localStorage.getItem("name")
+    // setname(check)
    },[])
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -38,11 +41,11 @@ const Header = ({ userName }) => {
           </li>
         </ul>
       </div>
-      {name ? JSON.parse(localStorage.getItem("name"))?.customer_id && (
+      {/* {name ? JSON.parse(localStorage.getItem("name"))?.customer_id && (
             <div className="nav-item">
               <span className="navbar-text mr-3">Welcome, {JSON.parse(localStorage.getItem("name"))?.name}</span>
             </div>
-          ):""}
+          ):""} */}
     </nav>
   );
 };

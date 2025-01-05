@@ -27,6 +27,7 @@ export class CustomersController {
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Customer> {
+    console.log("77777777777777777777777777777")
     return this.customersService.findOne(id);
   }
 }

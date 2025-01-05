@@ -34,7 +34,7 @@ const Cart = ({ cart, customerId }) => {
     }
 
     const order = {
-      customerId: localStorage.getItem("customerId"), // Assuming customerId is stored in localStorage
+      customerId: JSON.parse(localStorage.getItem("name")).customer_id, // Assuming customerId is stored in localStorage
       orderInfo,
       products: cart.map((item) => ({ productId: item.id, name: item.name, price: item.price })),
     };
@@ -111,7 +111,9 @@ const Cart = ({ cart, customerId }) => {
         </div>
       )}
 
-      <button className="btn btn-success" onClick={handleCheckout}>
+      <button className="btn btn-success" onClick={()=>{ if(localStorage.getItem("name") && JSON.parse(localStorage.getItem("name"))?.customer_id){
+handleCheckout()
+      }else{alert("Please Login as Customer")}} }>
         Checkout
       </button>
     </div>
