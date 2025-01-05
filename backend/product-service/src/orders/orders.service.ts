@@ -34,7 +34,6 @@ export class OrdersService implements OnModuleInit, OnModuleDestroy {
       orderInfo: orderDto.orderInfo,
     });
 
-    // Publish an order created event
     this.channel.publish('orders_exchange', 'order.created', Buffer.from(JSON.stringify({
       id: order.id,
       customerId: order.customerId,
@@ -43,6 +42,10 @@ export class OrdersService implements OnModuleInit, OnModuleDestroy {
     })));
 
     return order;
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.orderModel.destroy({ where: { id } });
   }
 
   findAll(): Promise<Order[]> {
@@ -58,18 +61,14 @@ export class OrdersService implements OnModuleInit, OnModuleDestroy {
     
     const ordersWithCustomerDetails = await Promise.all(
       orders.map(async (order) => {
-        // Fetch customer details
-        console.log(order.customerId,"order.customerIdorder.customerId")
         const response = await axios.get(`http://localhost:3002/customers/${order.customerId}`);
         const customer = response.data;
-        console.log(customer,"customercustomercustomercustomercustomercustomer")
-
 
         return {
           id: order.id,
           products: order.products,
           orderInfo: order.orderInfo,
-          customer: customer
+          customer: customer,
         };
       })
     );

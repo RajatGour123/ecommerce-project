@@ -16,8 +16,13 @@ const LoginCustomer = ({ setUserName }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3002/customers/login', credentials);
-      localStorage.setItem("name",JSON.stringify({name:response.data.name,customer_id:response.data.id}))
-      router.push('/');
+      if(response.data.error){
+       alert(response.data.error)
+      }else{
+        localStorage.setItem("name",JSON.stringify({name:response.data.name,customer_id:response.data.id}))
+        router.push('/');
+      }
+     
     } catch (error) {
       console.error('Failed to log in', error);
       alert('Failed to log in, please try again.');

@@ -112,7 +112,7 @@ const Cart = ({ cart, customerId }) => {
       )}
 
       <button className="btn btn-success" onClick={()=>{ if(localStorage.getItem("name") && JSON.parse(localStorage.getItem("name"))?.customer_id){
-handleCheckout()
+     handleCheckout()
       }else{alert("Please Login as Customer")}} }>
         Checkout
       </button>

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
@@ -13,5 +13,10 @@ export class OrdersController {
   @Get('/history')
   async getOrderHistory(): Promise<any[]> {
     return this.ordersService.findOrdersWithCustomerDetails();
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string): Promise<void> {
+    return this.ordersService.remove(id);
   }
 }
